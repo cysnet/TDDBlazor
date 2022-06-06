@@ -1,0 +1,25 @@
+﻿@page "/todo"
+@using TodoBlazorServer.Data
+@using TodoBlazorServer.Services
+
+@if(todoGroups !=null && todoGroups.Count > 0)
+{
+    foreach (var item in todoGroups)
+    {
+        <h1>@item.Key</h1> <h2>@item.Count</h2>
+    }
+}
+
+@code {
+    List<TodoGroupInfo> todoGroups = new List<TodoGroupInfo>();
+
+    [Inject]
+    ITodoService todoService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        todoGroups = todoService.GroupByTodoList();
+    }
+
+}
